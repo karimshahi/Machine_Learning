@@ -1,0 +1,101 @@
+# Linear regression
+## imports
+
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+
+global t0,t1,s0,s1,j;
+
+## dataset generation
+x=np.zeros((1, 13), dtype=np.int32)
+y=np.zeros((1, 13), dtype=np.int32)
+
+x = [1,3,5,7,7,9,12,15,16,16,18,20,25]
+y = [2,4,7,8,9,12,19,17,21,25,30,40,30]
+
+plt.plot(x,y,'or')
+plt.show()
+
+def Show(t0,t1):
+    plt.plot(x,y,'or')    
+    m = 3
+    plt.plot([min(x)-m,max(x)+m],[t0+(min(x)-m)*t1 , t0+(max(x)+m)*t1 ])
+    plt.show()
+    #print()
+
+##  Linear regression (gradient descent)
+
+# initialize variable
+random.seed(20)
+t0 = random.random()  # teta 0
+t1 = random.random() # teta 1
+#When we increase the repetition to a point J decreases and increases to a point J.
+#It's not always great to get good repetition.
+iteration = 44
+alpha = 0.00001 # learning rate
+
+## before train
+Show(t0,t1)
+print(t0,t1)
+
+for i in range(0,len(x)):
+    j=0;
+    j += ((t0+t1*x[i]) - y[i])**2
+j/=2
+print('J: ' + str(j))
+
+# Train gradient descent
+
+for it in range(0,iteration):
+    # t0 update
+    s0 = 0
+    s1 = 0
+    
+    for i in range(0,len(x)):
+        j=0;
+        j += ((t0+t1*x[i]) - y[i])**2
+    j/=2
+    print("=====================")
+    print("=====================")
+    print('J: ' + str(j))
+    print("---------------------")
+    print('t0 : '+str(t0))
+    print('t1: '+str(t1))
+    print("^^^^^^^^^^^^^^^^^^^^^")
+    print()
+    
+    for i in range(0,len(x)):
+        h = t0 + x[i] * t1        
+        s0 +=  h - y[i]        
+        s1 +=  (h - y[i]) * x[i]
+    t0 = t0 - alpha * s0
+    t1 = t1 - alpha * s1 
+    if(it %13==0):
+        Show(t0,t1)
+print()
+print('t0 : '+str(t0))
+print('t1: '+str(t1))
+
+## after train 
+Show(t0,t1)
+
+# report error 
+for i in range(0,len(x)):
+    j=0;
+    j += ((t0+t1*x[i]) - y[i])**2
+j/=2
+print("=======Final=========")
+print("======result=========")
+print("=====================")
+
+print('J: ' + str(j))
+print("---------------------")
+print('t0 : '+str(t0))
+print('t1: '+str(t1))
+print("^^^^^^^^^^^^^^^^^^^^^")
+print()
+
+
+
+
