@@ -1,0 +1,85 @@
+# Logestic regression
+## imports
+
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+import math
+
+x = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+y = [0,0,0,0,0,0,1,0,1,1,1,1,1]
+
+plt.plot(x,y,'.r')
+plt.show()
+
+
+
+def sigmoid(z):
+    return 1 / (1+math.exp(-z))    
+    
+# show line
+
+def Show(t0,t1):
+    plt.plot(x,y,'.r')    
+    m = 10
+    for i in range(min(x)*m,max(x)*m,1):    
+        plt.plot(i/m, sigmoid(t0+ t1*i/m),'.b')
+    plt.show()
+
+
+##  Logestic regression (gradient descent)
+
+# initialize variable
+random.seed(20)
+t0 = random.random()  # teta 0
+t1 = random.random() # teta 1
+iteration = 1000
+alpha = 0.01 # learning rate
+
+
+## before train
+Show(t0,t1)
+
+
+# Train gradient descent
+
+for it in range(0,iteration):
+    # t0 update
+    s0 = 0
+    s1 = 0
+    for i in range(0,len(x)):
+        h = sigmoid(t0 + x[i] * t1)
+        s0 +=  h - y[i]        
+        s1 +=  (h - y[i]) * x[i]
+    t0 = t0 - alpha * s0
+    t1 = t1 - alpha * s1    
+    if(it % 10 ==0):
+        Show(t0,t1)
+print('t0 : '+str(t0))
+print('t1: '+str(t1))
+
+## after train 
+Show(t0,t1)
+
+# report error 
+
+for i in range(0,len(x)):
+    j = 0
+    j += (sigmoid(t0+t1*x[i]) - y[i])**2
+j/=2
+print('J: ' + str(j))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
