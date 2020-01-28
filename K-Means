@@ -1,0 +1,84 @@
+# K-means clustering
+## imports
+
+# import library
+
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+import math
+
+## dataset generation
+x = np.random.randint(13,377,377)
+y = np.random.randint(13,377,377)
+
+
+plt.plot(x,y,'.k')
+plt.show()
+
+## show 
+
+def Show(k1,k2,k3):
+    plt.plot(k1[0],k1[1],'sr')
+    plt.plot(k2[0],k2[1],'sb')
+    plt.plot(k3[0],k3[1],'sg')
+    for i in range(0,len(x)):
+        # distance equal sqrt((x - kx)^2 + (y - ky)^2)
+        # https://realpython.com/python-square-root-function/
+        
+        d1 = math.sqrt((x[i]-k1[0])**2 + (y[i]-k1[1])**2)   
+        d2 = math.sqrt((x[i]-k2[0])**2 + (y[i]-k2[1])**2)   
+        d3 = math.sqrt((x[i]-k3[0])**2 + (y[i]-k3[1])**2)   
+        if(min([d1,d2,d3]) == d1):
+            plt.plot(x[i],y[i],'.r')
+        elif(min([d1,d2,d3]) == d2):
+            plt.plot(x[i],y[i],'.b')
+        else:
+            plt.plot(x[i],y[i],'.g')
+ 
+ ##  K means
+ # initialize variable
+s = random.sample(range(0,len(x)),3)  # sampling
+k1 = [x[s[0]],y[s[0]]]
+k2 = [x[s[1]],y[s[1]]]
+k3 = [x[s[2]],y[s[2]]]
+iteration = 1000
+
+## before train
+Show(k1,k2,k3)
+
+
+# Train K-means
+def update(q):
+    xx = 0
+    yy = 0         
+    for i in q:
+        xx += x[i]
+        yy += y[i]
+    return [xx/len(q) , yy/len(q) ]
+    
+for i in range(0,iteration):
+    pk1 = list()
+    pk2 = list()
+    pk3 = list()
+    for i in range(0,len(x)):
+        # distance equal sqrt((x - kx)^2 + (y - ky)^2)
+        d1 = math.sqrt((x[i]-k1[0])**2 + (y[i]-k1[1])**2)   
+        d2 = math.sqrt((x[i]-k2[0])**2 + (y[i]-k2[1])**2)   
+        d3 = math.sqrt((x[i]-k3[0])**2 + (y[i]-k3[1])**2)   
+        if(min([d1,d2,d3]) == d1):
+            pk1.append(i)
+        elif(min([d1,d2,d3]) == d2):
+            pk2.append(i)
+        else:
+            pk3.append(i)   
+    if(len(pk1)> 0):
+        k1 = update(pk1)# update k1
+    if(len(pk2)> 0):
+        k2 = update(pk2)# update k2
+    if(len(pk3)> 0):
+        k3 = update(pk3)# update k3
+        
+## after train 
+Show(k1,k2,k3)
+
