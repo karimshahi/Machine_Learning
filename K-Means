@@ -82,3 +82,32 @@ for i in range(0,iteration):
 ## after train 
 Show(k1,k2,k3)
 
+-------------------------------
+بهینه شده ی کد بالا
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# dataset generation
+np.random.seed(0)
+x = np.random.randint(13,377,377)
+y = np.random.randint(13,377,377)
+
+plt.plot(x,y,'.k')
+plt.show()
+
+def show_clusters(kmeans):
+    plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1])
+    for i in range(len(x)):
+        if kmeans.labels_[i] == 0:
+            plt.plot(x[i],y[i],'.r')
+        elif kmeans.labels_[i] == 1:
+            plt.plot(x[i],y[i],'.b')
+        else:
+            plt.plot(x[i],y[i],'.g')
+
+# K-means
+kmeans = KMeans(n_clusters=3, random_state=0).fit(np.column_stack((x,y)))
+show_clusters(kmeans)
+
+plt.show()
