@@ -71,9 +71,50 @@ print('J: ' + str(j))
 
 
 
+---------------
+بهینه شده ی کد بالا 
 
 
+import numpy as np
+import matplotlib.pyplot as plt
 
+# dataset generation
+x = np.array([1,2,3,4,5,6,7,8,9,10,11,12,13])
+y = np.array([0,0,0,0,0,0,1,0,1,1,1,1,1])
+
+plt.plot(x,y,'.r')
+plt.show()
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+# Logestic regression (gradient descent)
+
+np.random.seed(20)
+t0 = np.random.rand()
+t1 = np.random.rand()
+
+iteration = 1000
+alpha = 0.01
+
+for it in range(iteration):
+    h = sigmoid(t0 + t1 * x)
+    s0 = -(y - h).sum() / len(x)
+    s1 = (-(y - h) * x).sum() / len(x)
+    if it % 10 == 0:
+        plt.scatter(x, y, c=['r' if i else 'b' for i in y])
+        plt.plot(x, sigmoid(t0 + t1 * x), label='h')
+        plt.legend()
+        plt.show()
+    t0 = t0 - alpha * s0
+    t1 = t1 - alpha * s1
+
+print('t0 : ', t0)
+print('t1: ', t1)
+
+# report error 
+j = (-y * np.log(sigmoid(t0 + t1 * x)) - (1-y) * np.log(1-sigmoid(t0 + t1 * x))).sum() / len(x)
+print('J: ', j)
 
 
 
